@@ -1,0 +1,4 @@
+.wrap{
+    grid-area: chats;
+    position: relative;
+}

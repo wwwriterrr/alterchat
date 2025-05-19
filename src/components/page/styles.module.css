@@ -1,0 +1,10 @@
+:global(:root){
+    --chats-width: 350px;
+}
+
+.page{
+    position: relative;
+    width: 100%;height: 100%;
+    display: grid;
+    grid-template: 'side chats content right' 100% / auto var(--chats-width) 1fr auto;
+}
