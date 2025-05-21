@@ -2,10 +2,12 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import { type TUser } from '../../core/types'
 import { CheckAuth } from './actions'
 
+type TSliceUser = TUser & {access?: string | null, refresh?: string | null}
+
 type TAuthInitialState = {
     loading: boolean,
     authChecked: boolean,
-    user: TUser | null,
+    user: TSliceUser | null,
 }
 
 const initialState: TAuthInitialState = {
@@ -18,13 +20,13 @@ export const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        setUser: (state, action: PayloadAction<TUser>) => {
+        setUser: (state, action: PayloadAction<TSliceUser>) => {
             state.user = action.payload;
         },
         setTokens: (state, action: PayloadAction<{accessToken: string, refreshToken: string}>) => {
             if(state.user){
-                state.user.accessToken = action.payload.accessToken;
-                state.user.refreshToken = action.payload.refreshToken;
+                state.user.access = action.payload.accessToken;
+                state.user.refresh = action.payload.refreshToken;
             }
             localStorage.setItem('access', action.payload.accessToken);
             localStorage.setItem('refresh', action.payload.refreshToken);
@@ -33,7 +35,7 @@ export const authSlice = createSlice({
     selectors: {
         getUser: state => state.user,
         getAuthChecked: state => state.authChecked,
-        getTokens: state => { return {accessToken: state.user?.accessToken, refreshToken: state.user?.refreshToken} },
+        getTokens: state => { return {accessToken: state.user?.access, refreshToken: state.user?.refresh} },
     },
     extraReducers: (builder) => {
         builder
