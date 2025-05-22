@@ -19,7 +19,7 @@ export const RoomsFetch = createAsyncThunk(
                 return rejectWithValue(`Error with fetch rooms: status ${response.status}`)
             }
 
-            const data: {rooms: TRoom[]} = await response.json();
+            const data: {rooms: TRoom[], more: boolean} = await response.json();
 
             dispatch(setRooms(data.rooms));
 
