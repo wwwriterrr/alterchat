@@ -1,4 +1,4 @@
-import { type FC, type RefObject, type HTMLAttributes } from 'react'
+import { type FC, type RefObject, type HTMLAttributes, useState, useEffect, useLayoutEffect } from 'react'
 import styles from './styles.module.css'
 
 type TProps = {
@@ -10,26 +10,47 @@ type TProps = {
     type?: string,
     value: string,
     onChange: () => void,
-    ref?: RefObject<HTMLInputElement>,
+    inputRef?: RefObject<HTMLInputElement>,
+    autoFocus?: boolean,
 } & HTMLAttributes<HTMLInputElement>
 
-export const Input: FC<TProps> = ({name, type='text', value, onChange, beforeText, afterText, containerClassName='', ref, className='', label, }) => {
+export const Input: FC<TProps> = ({name, type='text', value, onChange, beforeText, afterText, containerClassName='', inputRef, className='', label, autoFocus}) => {
+    const [isFocus, setIsFocus] = useState<boolean>(false);
+    
+    const focusHandler = () => {
+        setIsFocus(true);
+    }
+
+    const blurHandler = () => {
+        setIsFocus(false);
+    }
+
+    useLayoutEffect(() => {
+        if(autoFocus){
+            if(inputRef?.current){
+                inputRef.current.focus();
+            }
+        }
+    }, [])
+
     return (
         <div className={`${styles.wrap} ${containerClassName}`}>
             {beforeText ? (
                 <div className={styles.beforeText}>{beforeText}</div>
             ) : null}
-            <div className={`${styles.inputWrap}`}>
+            <div className={`${styles.inputWrap} ${label ? styles.inputWrapLabel : ''} ${value === '' ? '' : styles.notEmpty} ${isFocus ? styles.focus : ''}`}>
                 {label ? (
                     <div className={styles.label}>{label}</div>
                 ) : null}
                 <input 
                     className={`${styles.input} ${className}`} 
-                    ref={ref} 
+                    ref={inputRef} 
                     name={name} 
                     type={type} 
                     value={value} 
                     onChange={onChange} 
+                    onFocus={focusHandler}
+                    onBlur={blurHandler}
                 />
             </div>
             {afterText ? (
