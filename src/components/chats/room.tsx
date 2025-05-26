@@ -4,23 +4,29 @@ import { type TRoom } from '../../core/types'
 import { useAppSelector } from '../../services/store';
 import { getUser } from '../../services/auth/slice';
 import { HostUrl } from '../../core/constants';
+import { AppUtils } from '../../core/utils';
 
 export const Room: FC<{room: TRoom}> = ({room}) => {
-    const {id, members, avatar, title} = room;
+    const {id, members, avatar, title, last_msg, dt_modified, dt_created} = room;
 
     const user = useAppSelector(getUser)!;
 
     let av: string | undefined | null = null;
+    let name: string;
     let avLetter: string;
 
     if(members.length === 2){
         const member = members.find(item => item.id !== user.id);
         av = member?.avatar;
         avLetter = member?.name[0] || 'A';
+        name = member?.name || `Chat #${id}`;
     }else{
         av = avatar;
         avLetter = title?.[0] || 'A';
+        name = title || `Chat #${id}`;
     }
+
+    const dtStr = AppUtils.roomDtFromTs(dt_modified || dt_created);
 
     return (
         <div className={styles.room} id={`room-${id}`}>
@@ -31,6 +37,20 @@ export const Room: FC<{room: TRoom}> = ({room}) => {
                     <span className={styles.letter}>{avLetter}</span>
                 )}
             </div>
+            <div className={styles.roomName}>
+                <span>{name}</span>
+            </div>
+            <div className={styles.msg}>
+                {last_msg ? (
+                    <>{last_msg}</>
+                ) : (
+                    <span style={{fontSize: 12}}>Сообщений нет</span>
+                )}
+            </div>
+            <div className={styles.dt}>
+                {dtStr}
+            </div>
+            {/* <div className={styles.ntf}>99+</div> */}
         </div>
     )
 }

@@ -1,3 +1,77 @@
 .room{
+    position: relative;
+    padding: 10px;
+    border-bottom: 1px solid #e3e3e3;
+    display: grid;
+    grid-template: 'av name dt dt' auto 'av msg msg ntf' auto / auto 1fr auto auto;
+    gap: 4px 10px;
+    cursor: pointer;
 
+    &:last-child{
+        border-bottom: 0;
+    }
+}
+
+.avatarWrap{
+    grid-area: av;
+    position: relative;
+    width: 40px;height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #e3e3e3;
+    cursor: pointer;
+}
+
+.avatar, 
+.letter{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: #444;
+}
+
+.letter{
+    
+}
+
+.roomName{
+    grid-area: name;
+    cursor: pointer;
+}
+
+.msg{
+    grid-area: msg;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    opacity: .5;
+    cursor: pointer;
+}
+
+.dt{
+    grid-area: dt;
+    font-size: 12px;
+    opacity: .5;
+    cursor: pointer;
+}
+
+.ntf{
+    grid-area: ntf;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: var(--active-color);
+    color: #fff;
+    font-size: 10px;
+    cursor: pointer;
 }

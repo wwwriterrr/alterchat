@@ -12,9 +12,23 @@ type TProps = {
     onChange: () => void,
     inputRef?: RefObject<HTMLInputElement>,
     autoFocus?: boolean,
+    autoComplete?: string,
 } & HTMLAttributes<HTMLInputElement>
 
-export const Input: FC<TProps> = ({name, type='text', value, onChange, beforeText, afterText, containerClassName='', inputRef, className='', label, autoFocus}) => {
+export const Input: FC<TProps> = ({
+    name, 
+    type='text', 
+    value, 
+    onChange, 
+    beforeText, 
+    afterText, 
+    containerClassName='', 
+    inputRef, 
+    className='', 
+    label, 
+    autoFocus, 
+    autoComplete='off'
+}) => {
     const [isFocus, setIsFocus] = useState<boolean>(false);
     
     const focusHandler = () => {
@@ -51,6 +65,7 @@ export const Input: FC<TProps> = ({name, type='text', value, onChange, beforeTex
                     onChange={onChange} 
                     onFocus={focusHandler}
                     onBlur={blurHandler}
+                    autoComplete={autoComplete}
                 />
             </div>
             {afterText ? (

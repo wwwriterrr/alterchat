@@ -84,6 +84,7 @@ export const AuthForm = () => {
                         value={form.login} 
                         label='Логин / email'
                         onChange={loginChangeHandler} 
+                        autoComplete={'off'}
                         autoFocus
                     />
                 </div>

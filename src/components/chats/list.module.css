@@ -1,5 +1,6 @@
 .wrap{
-
+    display: flex;
+    flex-direction: column;
 }
 
 .loader{
@@ -8,4 +9,5 @@
 
 .empty{
     opacity: .5;
+    padding: 10px;
 }
