@@ -1,13 +1,16 @@
 import { type FC } from 'react'
 import styles from './room.module.css'
 import { type TRoom } from '../../core/types'
-import { useAppSelector } from '../../services/store';
+import { useAppDispatch, useAppSelector } from '../../services/store';
 import { getUser } from '../../services/auth/slice';
 import { HostUrl } from '../../core/constants';
 import { AppUtils } from '../../core/utils';
+import { setActiveRoom } from '../../services/rooms/slice';
 
 export const Room: FC<{room: TRoom}> = ({room}) => {
     const {id, members, avatar, title, last_msg, dt_modified, dt_created} = room;
+
+    const dispatch = useAppDispatch();
 
     const user = useAppSelector(getUser)!;
 
@@ -28,8 +31,12 @@ export const Room: FC<{room: TRoom}> = ({room}) => {
 
     const dtStr = AppUtils.roomDtFromTs(dt_modified || dt_created);
 
+    const clickHandler = () => {
+        dispatch(setActiveRoom(room));
+    }
+
     return (
-        <div className={styles.room} id={`room-${id}`}>
+        <div className={styles.room} id={`room-${id}`} onClick={clickHandler}>
             <div className={styles.avatarWrap}>
                 {av ? (
                     <img className={styles.avatar} src={`${HostUrl}${av}`} alt={avLetter} />

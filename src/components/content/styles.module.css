@@ -1,0 +1,12 @@
+.wrap{
+    grid-area: content;
+    display: grid;
+    grid-template: 'head' auto 'msg' 1fr 'editor' auto / 100%;
+}
+
+.empty{
+    grid-area: msg;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

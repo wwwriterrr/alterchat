@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { BackendUrl } from "../../core/constants";
 import { AppFetch } from "../api";
 import { TRoom } from "../../core/types";
-import { setRooms } from "./slice";
+import { setRooms, setRoomsMore } from "./slice";
 
 
 export const RoomsFetch = createAsyncThunk(
@@ -22,6 +22,7 @@ export const RoomsFetch = createAsyncThunk(
             const data: {rooms: TRoom[], more: boolean} = await response.json();
 
             dispatch(setRooms(data.rooms));
+            dispatch(setRoomsMore(data.more));
 
             return
         } catch (err) {
