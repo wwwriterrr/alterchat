@@ -18,10 +18,11 @@ export type TRoom = {
     id: number,
     title: string | null,
     description: string | null,
+    avatar: string | null,
     dt_created: number,
     dt_modified: number | null,
     members: TUser[],
-    last_msg: string | null
+    last_msg: string | null,
 }
 
 export type TFile = {

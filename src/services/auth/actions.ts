@@ -120,9 +120,11 @@ export const AuthRefreshToken = createAsyncThunk(
             const data: {access: string, refresh: string} = await response.json();
 
             dispatch(setTokens({accessToken: data.access, refreshToken: data.refresh}));
-            
+
             localStorage.setItem('access', data.access);
             localStorage.setItem('refresh', data.refresh);
+
+            // dispatch(AuthGetSelf());
 
             return;
         }catch (err){
@@ -131,7 +133,46 @@ export const AuthRefreshToken = createAsyncThunk(
     }
 )
 
+export const AuthLogin = createAsyncThunk(
+    'auth/login',
+    async ({login, password}: {login: string, password: string}, {rejectWithValue, dispatch}) => {
+        try{
+            const url = new URL(`${BackendUrl}/token/`);
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: login,
+                    password,
+                })
+            });
+
+            if(!response.ok){
+                return rejectWithValue(`Ошибка авторизации. Статус: ${response.status}`)
+            }
+
+            const data: {access: string, refresh: string} = await response.json();
+
+            // dispatch(setTokens({accessToken: data.access, refreshToken: data.refresh}));
+            
+            localStorage.setItem('access', data.access);
+            localStorage.setItem('refresh', data.refresh);
+
+            dispatch(AuthGetSelf());
+
+            return
+        } catch (err) {
+            return rejectWithValue(err);
+        }
+    }
+)
+
 export type TAuthExternalActions = ReturnType<typeof CheckAuth> |
     ReturnType<typeof AuthCheckAccessToken> | 
     ReturnType<typeof AuthGetSelf> | 
-    ReturnType<typeof AuthRefreshToken>
+    ReturnType<typeof AuthRefreshToken> | 
+    ReturnType<typeof AuthLogin>

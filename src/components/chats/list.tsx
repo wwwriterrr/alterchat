@@ -16,9 +16,15 @@ export const Rooms = () => {
                 </div>
             ) : (
                 <>
-                    {rooms.map(room => (
-                        <Room room={room} key={`room-${room.id}`} />
-                    ))}
+                    {rooms.length ? (
+                        <>
+                            {rooms.map(room => (
+                                <Room room={room} key={`room-${room.id}`} />
+                            ))}
+                        </>
+                    ) : (
+                        <div className={styles.empty}>У вас нет бесед</div>
+                    )}
                 </>
             )}
         </div>

@@ -1,10 +1,13 @@
 :root{
-
+    --main-font: 'PT Serif', sans-serif;
+    --active-color: #346dc6;
 }
 
 body{
     margin: 0;padding: 0;
     width: 100%;height: 100vh;
+    font-family: var(--main-font);
+    font-weight: 400;
     font-size: 14px;
 }
 
@@ -17,6 +20,8 @@ input{
     border: 0;
     padding: 0;
     background-color: transparent;
+    font-family: var(--main-font);
+    font-size: 14px;
 }
 
 button, input[type="button"], input[type="submit"]{
@@ -24,6 +29,9 @@ button, input[type="button"], input[type="submit"]{
     background-color: transparent;
     padding: 0;
     margin: 0;
+    border: 0;
+    font-family: var(--main-font);
+    font-size: 14px;
 }
 
 *{
@@ -33,4 +41,9 @@ button, input[type="button"], input[type="submit"]{
 
 *:active, *:focus{
     outline: none;
+}
+
+img{
+    object-fit: cover;
+    object-position: center;
 }
