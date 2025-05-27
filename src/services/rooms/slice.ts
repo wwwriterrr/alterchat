@@ -30,9 +30,20 @@ export const roomsSlice = createSlice({
         setActiveRoom: (state, action: PayloadAction<TRoom | null>) => {
             state.activeRoom = action.payload;
         },
+        selectRoom: (state, action: PayloadAction<number>) => {
+            const room = state.rooms.find(item => item.id === action.payload);
+
+            if(!room) return;
+
+            state.activeRoom = room;
+        },
     },
     selectors: {
         getRooms: state => state.rooms,
+        getRoom: (state, action: PayloadAction<number>) => {
+            const room = state.rooms.find(item => item.id === action.payload);
+            return room || null;
+        },
         getRoomsLoading: state => state.loading,
         getRoomsMore: state => state.more,
         getActiveRoom: state => state.activeRoom,
@@ -55,6 +66,7 @@ export default roomsSlice.reducer;
 
 export const {
     getRooms,
+    getRoom,
     getRoomsLoading,
     getRoomsMore,
     getActiveRoom,
@@ -64,6 +76,7 @@ export const {
     setRooms,
     setRoomsMore,
     setActiveRoom,
+    selectRoom,
 } = roomsSlice.actions;
 
 export type TRoomsInternalActions = ReturnType<typeof roomsSlice.actions[keyof typeof roomsSlice.actions]>

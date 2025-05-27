@@ -2,6 +2,7 @@ import {combineReducers, configureStore, ThunkDispatch} from '@reduxjs/toolkit';
 import { useDispatch, useSelector, useStore } from 'react-redux';
 import { authSlice, TAuthInternalActions } from './auth/slice';
 import { roomsSlice, TRoomsInternalActions } from './rooms/slice';
+import { editorSlice, TEditorInternalActions } from './editor/slice';
 // import { TAuthExternalActions } from './auth/actions';
 // import { 
 //     MessagesSlice, 
@@ -24,6 +25,7 @@ import { roomsSlice, TRoomsInternalActions } from './rooms/slice';
 export const rootReducer = combineReducers({
     [authSlice.reducerPath]: authSlice.reducer,
     [roomsSlice.reducerPath]: roomsSlice.reducer,
+    [editorSlice.reducerPath]: editorSlice.reducer,
 })
 
 // const messagesMiddleware = socketMiddleware<unknown, TWsMessage>({
@@ -43,7 +45,7 @@ export const store = configureStore({
     // }).concat(messagesMiddleware)
 })
 
-type TApplicationActions = TAuthInternalActions | TRoomsInternalActions;
+type TApplicationActions = TAuthInternalActions | TRoomsInternalActions | TEditorInternalActions;
 
 export type AppStore = typeof store;
 export type RootState = ReturnType<typeof rootReducer>;

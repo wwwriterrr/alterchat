@@ -1,0 +1,12 @@
+.tox-tinymce{
+    border: 0 !important;
+    border-radius: 0 !important;
+}
+
+.tox .tox-statusbar{
+    display: none !important;
+}
+
+.tox .tox-edit-area::before {
+    display: none;
+}

@@ -1,14 +1,26 @@
-import { getActiveRoom } from '../../services/rooms/slice'
-import { useAppSelector } from '../../services/store'
+import { Outlet, useLocation, useParams } from 'react-router-dom'
+import { selectRoom } from '../../services/rooms/slice'
+import { useAppDispatch } from '../../services/store'
 import styles from './styles.module.css'
+import { useEffect } from 'react'
 
 export const ChatContent = () => {
-    const room = useAppSelector(getActiveRoom);
+    const dispatch = useAppDispatch();
+
+    const location = useLocation();
+
+    const {roomId} = useParams();
+    
+    useEffect(() => {
+        if(roomId){
+            dispatch(selectRoom(parseInt(roomId)));
+        }
+    }, [location])
 
     return (
         <div className={styles.wrap}>
-            {room ? (
-                <>{room.id}</>
+            {roomId ? (
+                <Outlet />
             ) : (
                 <div className={styles.empty}>Выберите чат</div>
             )}

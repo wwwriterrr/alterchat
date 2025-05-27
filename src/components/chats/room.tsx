@@ -6,11 +6,14 @@ import { getUser } from '../../services/auth/slice';
 import { HostUrl } from '../../core/constants';
 import { AppUtils } from '../../core/utils';
 import { setActiveRoom } from '../../services/rooms/slice';
+import { useNavigate } from 'react-router-dom';
 
 export const Room: FC<{room: TRoom}> = ({room}) => {
     const {id, members, avatar, title, last_msg, dt_modified, dt_created} = room;
 
     const dispatch = useAppDispatch();
+
+    const navigate = useNavigate();
 
     const user = useAppSelector(getUser)!;
 
@@ -32,7 +35,8 @@ export const Room: FC<{room: TRoom}> = ({room}) => {
     const dtStr = AppUtils.roomDtFromTs(dt_modified || dt_created);
 
     const clickHandler = () => {
-        dispatch(setActiveRoom(room));
+        // dispatch(setActiveRoom(room));
+        navigate(`/messenger/${id}/`);
     }
 
     return (

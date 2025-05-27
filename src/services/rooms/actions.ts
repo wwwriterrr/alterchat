@@ -2,8 +2,27 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { BackendUrl } from "../../core/constants";
 import { AppFetch } from "../api";
 import { TRoom } from "../../core/types";
-import { setRooms, setRoomsMore } from "./slice";
+import { setActiveRoom, setRooms, setRoomsMore } from "./slice";
+import { RootState } from "../store";
 
+export const RoomsSelect = createAsyncThunk(
+    'rooms/select', 
+    async (roomId: number, {rejectWithValue, dispatch, getState}) => {
+        try{
+            const room = (getState() as RootState).rooms.rooms.find(item => item.id === roomId);
+
+            if(!room){
+                return rejectWithValue('404');
+            }
+
+            console.log(room);
+
+            dispatch(setActiveRoom(room));
+        }catch (err) {
+            return rejectWithValue(err);
+        }
+    }
+)
 
 export const RoomsFetch = createAsyncThunk(
     'rooms/fetch',
@@ -31,4 +50,5 @@ export const RoomsFetch = createAsyncThunk(
     }
 )
 
-export type TRoomsExternalActions = ReturnType<typeof RoomsFetch>
+export type TRoomsExternalActions = ReturnType<typeof RoomsFetch> |
+    ReturnType<typeof RoomsSelect>

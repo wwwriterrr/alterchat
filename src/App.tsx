@@ -4,6 +4,7 @@ import { Page } from './components/page'
 import { AuthHOC } from './HOC/auth'
 import { Provider } from 'react-redux'
 import { store } from './services/store'
+import { AppRoomContent } from './components/content/room'
 
 export const App = () => {
     return (
@@ -12,7 +13,7 @@ export const App = () => {
                 <BrowserRouter>
                     <Routes>
                         <Route path="messenger" element={<Page />} >
-                            <Route path=':roomId' element={<Page />} />
+                            <Route path=':roomId' element={<AppRoomContent />} />
                         </Route>
                         <Route path="*" element={<div>404</div>} />
                     </Routes>
