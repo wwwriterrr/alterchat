@@ -46,7 +46,7 @@ export const AppMessages = () => {
                                 <Message message={msg} key={`message-${msg.id}`} />
                             ))}
                             {wsStatus !== WebsocketStatus.ONLINE ? (
-                                <div className={styles.wsLoader}>
+                                <div className={styles.wsLoader} title='Проблемы с подключением. Исправляем.'>
                                     <LoaderIcon size={24} fill='#444' />
                                 </div>
                             ) : null}
