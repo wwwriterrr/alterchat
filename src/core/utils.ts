@@ -26,6 +26,11 @@ const roomDtFromTs = (timestamp: number) => {
     return res;
 }
 
+const stripTags = (html: string) => {
+    return html.replace(/<\/?[^>]+(>|$)/g, '').replace(/\&nbsp;/g, '');
+}
+
 export const AppUtils = {
-    roomDtFromTs
+    roomDtFromTs,
+    stripTags,
 }

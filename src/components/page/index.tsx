@@ -5,6 +5,7 @@ import { Chats } from '../chats'
 import { ChatContent } from '../content'
 import { useAppSelector } from '../../services/store'
 import { getRooms } from '../../services/rooms/slice'
+import { EventsHOC } from '../../HOC/events'
 
 export const Page = () => {
     const rooms = useAppSelector(getRooms);
@@ -12,7 +13,9 @@ export const Page = () => {
     return (
         <div className={styles.page}>
             <Side />
-            <Chats />
+            <EventsHOC>
+                <Chats />
+            </EventsHOC>
             {rooms.length ? (<ChatContent />) : (
                 <div>empty</div>
             )}

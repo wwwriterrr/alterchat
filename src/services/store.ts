@@ -1,51 +1,41 @@
-import {combineReducers, configureStore, ThunkDispatch} from '@reduxjs/toolkit';
-import { useDispatch, useSelector, useStore } from 'react-redux';
-import { authSlice, TAuthInternalActions } from './auth/slice';
-import { roomsSlice, TRoomsInternalActions } from './rooms/slice';
-import { editorSlice, TEditorInternalActions } from './editor/slice';
-// import { TAuthExternalActions } from './auth/actions';
-// import { 
-//     MessagesSlice, 
-//     // TMessagesResponse, 
-//     TMessagesWsInternalActions, 
-//     TWsMessage, 
-//     wsClose, 
-//     wsConnecting, 
-//     wsError, 
-//     wsMessage, 
-//     wsOpen,
-// } from './messages/slice';
-// import { socketMiddleware } from './middleware/socketMiddleware';
-// import { 
-//     messagesWsConnect, 
-//     messagesWsDisconnect, 
-//     TMessagesWsExternalActions 
-// } from './messages/actions';
+import {combineReducers, configureStore, ThunkDispatch} from '@reduxjs/toolkit'
+import { useDispatch, useSelector, useStore } from 'react-redux'
+import { authSlice, TAuthInternalActions } from './auth/slice'
+import { roomsSlice, TRoomsInternalActions } from './rooms/slice'
+import { editorSlice, TEditorInternalActions } from './editor/slice'
+import { socketMiddleware } from './middleware/socketMiddleware'
+import { MessagesSlice, TMessagesWsInternalActions, TWsMessage, wsClose, wsConnecting, wsError, wsMessage, wsOpen } from './messages/slice'
+import { messagesWsConnect, messagesWsDisconnect, TMessagesWsExternalActions } from './messages/actions'
 
 export const rootReducer = combineReducers({
     [authSlice.reducerPath]: authSlice.reducer,
     [roomsSlice.reducerPath]: roomsSlice.reducer,
     [editorSlice.reducerPath]: editorSlice.reducer,
+    [MessagesSlice.reducerPath]: MessagesSlice.reducer,
 })
 
-// const messagesMiddleware = socketMiddleware<unknown, TWsMessage>({
-//     connect: messagesWsConnect,
-//     disconnect: messagesWsDisconnect,
-//     onConnecting: wsConnecting,
-//     onOpen: wsOpen,
-//     onClose: wsClose,
-//     onError: wsError,
-//     onMessage: wsMessage,
-// })
+const messagesMiddleware = socketMiddleware<unknown, TWsMessage>({
+    connect: messagesWsConnect,
+    disconnect: messagesWsDisconnect,
+    onConnecting: wsConnecting,
+    onOpen: wsOpen,
+    onClose: wsClose,
+    onError: wsError,
+    onMessage: wsMessage,
+})
 
 export const store = configureStore({
     reducer: rootReducer,
-    // middleware: (getDefaultMiddleware) => getDefaultMiddleware({
-    //     serializableCheck: false,
-    // }).concat(messagesMiddleware)
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+        serializableCheck: false,
+    }).concat(messagesMiddleware)
 })
 
-type TApplicationActions = TAuthInternalActions | TRoomsInternalActions | TEditorInternalActions;
+type TApplicationActions = TAuthInternalActions | 
+    TRoomsInternalActions | 
+    TEditorInternalActions | 
+    TMessagesWsInternalActions | 
+    TMessagesWsExternalActions
 
 export type AppStore = typeof store;
 export type RootState = ReturnType<typeof rootReducer>;

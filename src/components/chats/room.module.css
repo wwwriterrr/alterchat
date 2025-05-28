@@ -6,10 +6,15 @@
     grid-template: 'av name dt dt' auto 'av msg msg ntf' auto / auto 1fr auto auto;
     gap: 4px 10px;
     cursor: pointer;
+    transition: background-color .1s ease-out;
 
     &:last-child{
         border-bottom: 0;
     }
+}
+
+.activeRoom{
+    background-color: #eee;
 }
 
 .avatarWrap{
@@ -53,6 +58,12 @@
     text-overflow: ellipsis;
     opacity: .5;
     cursor: pointer;
+
+    .draft{
+        i{
+            color: #db2424;
+        }
+    }
 }
 
 .dt{

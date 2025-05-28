@@ -39,10 +39,17 @@ export type TFile = {
 
 export type TMessage = {
     id: number,
+    room_id: number,
     user: TUser,
     dt_created: number,
     dt_modified: number | null,
     content: string,
     files: TFile[],
     read: number[],
+}
+
+export enum WebsocketStatus {
+    CONNECTING = 'CONNECTING...',
+    ONLINE = 'ONLINE',
+    OFFLINE = 'OFFLINE',
 }

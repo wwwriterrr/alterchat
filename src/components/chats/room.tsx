@@ -5,13 +5,21 @@ import { useAppDispatch, useAppSelector } from '../../services/store';
 import { getUser } from '../../services/auth/slice';
 import { HostUrl } from '../../core/constants';
 import { AppUtils } from '../../core/utils';
-import { setActiveRoom } from '../../services/rooms/slice';
-import { useNavigate } from 'react-router-dom';
+// import { setActiveRoom } from '../../services/rooms/slice';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getEditorContent, setEditorContent } from '../../services/editor/slice';
+import { getActiveRoom, setRoomDraft } from '../../services/rooms/slice';
+import { setMessages } from '../../services/messages/slice';
 
-export const Room: FC<{room: TRoom}> = ({room}) => {
-    const {id, members, avatar, title, last_msg, dt_modified, dt_created} = room;
+export const Room: FC<{room: TRoom & {draft?: string}}> = ({room}) => {
+    const {id, members, avatar, title, last_msg, dt_modified, dt_created, draft} = room;
+
+    const {roomId} = useParams();
 
     const dispatch = useAppDispatch();
+
+    const editorContent = useAppSelector(getEditorContent);
+    const activeRoom = useAppSelector(getActiveRoom);
 
     const navigate = useNavigate();
 
@@ -36,11 +44,34 @@ export const Room: FC<{room: TRoom}> = ({room}) => {
 
     const clickHandler = () => {
         // dispatch(setActiveRoom(room));
+        if(activeRoom?.id === id){
+            return;
+        }
+
+        dispatch(setMessages([]));
+
+        if(roomId){
+            if(editorContent){
+                dispatch(setRoomDraft({roomId: parseInt(roomId), draft: editorContent}));
+                dispatch(setEditorContent(''));
+            }
+        }
+
         navigate(`/messenger/${id}/`);
+        
+        if(draft){
+            dispatch(setEditorContent(draft));
+            dispatch(setRoomDraft({roomId: id, draft: undefined}));
+        }else{
+            dispatch(setEditorContent(''));
+        }
     }
 
+    const draftStr = AppUtils.stripTags(draft || '');
+    const msgStr = AppUtils.stripTags(last_msg || '');
+
     return (
-        <div className={styles.room} id={`room-${id}`} onClick={clickHandler}>
+        <div className={`${styles.room} ${activeRoom?.id === id ? styles.activeRoom : ''}`} id={`room-${id}`} onClick={clickHandler}>
             <div className={styles.avatarWrap}>
                 {av ? (
                     <img className={styles.avatar} src={`${HostUrl}${av}`} alt={avLetter} />
@@ -52,10 +83,16 @@ export const Room: FC<{room: TRoom}> = ({room}) => {
                 <span>{name}</span>
             </div>
             <div className={styles.msg}>
-                {last_msg ? (
-                    <>{last_msg}</>
+                {draft ? (
+                    <span className={styles.draft}><i>Черновик:</i> {draftStr}</span>
                 ) : (
-                    <span style={{fontSize: 12}}>Сообщений нет</span>
+                    <>
+                        {last_msg ? (
+                            <>{msgStr}</>
+                        ) : (
+                            <span style={{fontSize: 12}}>Сообщений нет</span>
+                        )}
+                    </>
                 )}
             </div>
             <div className={styles.dt}>

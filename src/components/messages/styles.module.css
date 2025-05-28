@@ -1,3 +1,25 @@
 .wrap{
     grid-area: msg;
+    padding: 10px;
+    height: 100%;
+    overflow: auto;
+}
+
+.loader{
+
+}
+
+.wsLoader{
+    margin: 20px 0 0 0;
+}
+
+.list{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.empty{
+    opacity: .5;
+    font-size: 12px;
 }

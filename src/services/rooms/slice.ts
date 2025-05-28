@@ -5,7 +5,7 @@ import { RoomsFetch } from "./actions"
 
 type TRoomsInitialState = {
     loading: boolean,
-    rooms: TRoom[],
+    rooms: (TRoom & {draft?: string})[],
     more: boolean,
     activeRoom: TRoom | null,
 }
@@ -29,6 +29,13 @@ export const roomsSlice = createSlice({
         },
         setActiveRoom: (state, action: PayloadAction<TRoom | null>) => {
             state.activeRoom = action.payload;
+        },
+        setRoomDraft: (state, action: PayloadAction<{roomId: number, draft: string | undefined}>) => {
+            const room = state.rooms.find(item => item.id === action.payload.roomId);
+
+            if(room){
+                room.draft = action.payload.draft;
+            }
         },
         selectRoom: (state, action: PayloadAction<number>) => {
             const room = state.rooms.find(item => item.id === action.payload);
@@ -75,6 +82,7 @@ export const {
 export const {
     setRooms,
     setRoomsMore,
+    setRoomDraft,
     setActiveRoom,
     selectRoom,
 } = roomsSlice.actions;
