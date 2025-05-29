@@ -85,6 +85,9 @@ export const socketMiddleware = <S, R>(
                         }
 
                         onMessage && dispatch(onMessage(parsedData));
+                        // onMessage.length && onMessage.map(f => {
+                        //     f && dispatch(f(parsedData));
+                        // })
                     } catch (err) {
                         dispatch(onError((err as Error).message));
                     }

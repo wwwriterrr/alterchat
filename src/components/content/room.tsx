@@ -1,6 +1,6 @@
 import { getActiveRoom } from "../../services/rooms/slice"
 import { useAppSelector } from "../../services/store"
-import { ChatHeader } from "../chatHeader"
+import { RoomHeader } from "../chatHeader"
 import { AppEditor } from "../editor"
 import { AppMessages } from "../messages"
 import styles from './styles.module.css'
@@ -12,7 +12,7 @@ export const AppRoomContent = () => {
         <div className={styles.roomContent}>
             {room ? (
                 <>
-                    <ChatHeader />
+                    <RoomHeader />
                     <AppMessages />
                     <AppEditor />
                 </>

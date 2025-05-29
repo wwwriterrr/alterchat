@@ -7,13 +7,46 @@
 }
 
 .left{
-
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .right{
-
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .closeBtn{
-    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+}
+
+.user{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+}
+
+.userAvatar{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    font-size: 10px;
+    background-color: #e3e3e3;
+    border-radius: 50%;
+}
+
+.userName{
+    font-size: 12px;
+    color: #444;
 }

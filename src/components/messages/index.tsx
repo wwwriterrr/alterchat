@@ -1,11 +1,10 @@
 import { useEffect, useRef } from 'react';
-import { getMessages, getMessagesLoad, getMessagesMore, getMessagesWsStatus, setMessages } from '../../services/messages/slice';
-import { getActiveRoom } from '../../services/rooms/slice'
+import { getActiveRoom, getMessages, getMessagesLoad, getMessagesMore, getMessagesWsStatus, setMessages } from '../../services/rooms/slice';
 import { useAppDispatch, useAppSelector } from '../../services/store'
 import { LoaderIcon } from '../icons';
 import { Message } from './message';
 import styles from './styles.module.css'
-import { MessagesFetch } from '../../services/messages/actions';
+import { MessagesFetch } from '../../services/rooms/actions';
 import { WebsocketStatus } from '../../core/types';
 
 export const AppMessages = () => {

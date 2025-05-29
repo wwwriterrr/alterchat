@@ -1,6 +1,6 @@
 import { useEffect, type FC } from 'react'
 import { useAppDispatch, useAppSelector } from '../../services/store'
-import { messagesWsConnect, messagesWsDisconnect } from '../../services/messages/actions';
+import { messagesWsConnect, messagesWsDisconnect } from '../../services/rooms/actions';
 import { getUser } from '../../services/auth/slice';
 import { ApiWsUrl } from '../../core/constants';
 

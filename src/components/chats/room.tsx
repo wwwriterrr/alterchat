@@ -8,8 +8,7 @@ import { AppUtils } from '../../core/utils';
 // import { setActiveRoom } from '../../services/rooms/slice';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getEditorContent, setEditorContent } from '../../services/editor/slice';
-import { getActiveRoom, setRoomDraft } from '../../services/rooms/slice';
-import { setMessages } from '../../services/messages/slice';
+import { getActiveRoom, setRoomDraft, setMessages } from '../../services/rooms/slice';
 
 export const Room: FC<{room: TRoom & {draft?: string}}> = ({room}) => {
     const {id, members, avatar, title, last_msg, dt_modified, dt_created, draft} = room;

@@ -1,17 +1,19 @@
 import {combineReducers, configureStore, ThunkDispatch} from '@reduxjs/toolkit'
 import { useDispatch, useSelector, useStore } from 'react-redux'
 import { authSlice, TAuthInternalActions } from './auth/slice'
-import { roomsSlice, TRoomsInternalActions } from './rooms/slice'
+import { 
+    roomsSlice, TRoomsInternalActions,
+    TWsMessage, wsClose, wsConnecting, wsError, wsMessage, wsOpen,
+} from './rooms/slice'
 import { editorSlice, TEditorInternalActions } from './editor/slice'
 import { socketMiddleware } from './middleware/socketMiddleware'
-import { MessagesSlice, TMessagesWsInternalActions, TWsMessage, wsClose, wsConnecting, wsError, wsMessage, wsOpen } from './messages/slice'
-import { messagesWsConnect, messagesWsDisconnect, TMessagesWsExternalActions } from './messages/actions'
+import { messagesWsConnect, messagesWsDisconnect, TMessagesWsExternalActions } from './rooms/actions'
 
 export const rootReducer = combineReducers({
     [authSlice.reducerPath]: authSlice.reducer,
     [roomsSlice.reducerPath]: roomsSlice.reducer,
     [editorSlice.reducerPath]: editorSlice.reducer,
-    [MessagesSlice.reducerPath]: MessagesSlice.reducer,
+    // [MessagesSlice.reducerPath]: MessagesSlice.reducer,
 })
 
 const messagesMiddleware = socketMiddleware<unknown, TWsMessage>({
@@ -34,7 +36,7 @@ export const store = configureStore({
 type TApplicationActions = TAuthInternalActions | 
     TRoomsInternalActions | 
     TEditorInternalActions | 
-    TMessagesWsInternalActions | 
+    // TMessagesWsInternalActions | 
     TMessagesWsExternalActions
 
 export type AppStore = typeof store;
