@@ -1,0 +1,16 @@
+.wrap{
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px;
+    border-bottom: 1px solid #e3e3e3;
+}
+
+.addRoom{
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+}

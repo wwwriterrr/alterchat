@@ -23,7 +23,7 @@ export const AppFetch = async (input: RequestInfo | URL, init?: RequestInit) => 
             return Promise.reject('RToken is missing');
         }
 
-        const url = new URL(`${BackendUrl}token/refresh/`);
+        const url = new URL(`${BackendUrl}/token/refresh/`);
 
         const tokenResponse = await fetch(url, {
             method: 'POST',
