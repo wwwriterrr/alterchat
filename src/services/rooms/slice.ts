@@ -2,7 +2,7 @@ import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
 import { TMessage, WebsocketStatus, type TRoom } from "../../core/types"
 import { RoomsFetch } from "./actions"
 import { MessagesFetch } from "../rooms/actions"
-import { AppUtils } from "../../core/utils"
+// import { AppUtils } from "../../core/utils"
 
 type TRoomsInitialState = {
     loading: boolean,
@@ -72,8 +72,8 @@ export const roomsSlice = createSlice({
             state.rooms = sortRooms(rooms);
         },
         updateRoom: (state, action: PayloadAction<{id: number, room?: TRoom, dt?: number, msg?: string | null,}>) => {
+            const rooms = Array.from(state.rooms);
             if(action.payload.room){
-                const rooms = Array.from(state.rooms);
                 const r = rooms.find(item => item.id === action.payload.room?.id);
                 if(r){
                     const index = rooms.indexOf(r);
@@ -86,9 +86,9 @@ export const roomsSlice = createSlice({
                     state.rooms = sortRooms(rooms);
                 }
             }else{
-                if(state.rooms.find(item => item.id === action.payload.id)){
-                    const rooms = Array.from(state.rooms);
-                    const r = rooms.find(item => item.id === action.payload.id)!;
+                const r = rooms.find(item => item.id === action.payload.id)!;
+                if(r){
+                    // const r = rooms.find(item => item.id === action.payload.id)!;
 
                     if(typeof action.payload.dt !== 'undefined'){
                         r.dt_modified = action.payload.dt;
@@ -149,19 +149,94 @@ export const roomsSlice = createSlice({
                         }
                     }
 
-                    const rooms = Array.from(state.rooms);
-                    const r = rooms.find(item => item.id === action.payload.message.msg?.room_id);
+                    // Update room
+                    // const rooms = Array.from(state.rooms);
+                    // const r = rooms.find(item => item.id === action.payload.message.msg?.room_id);
+                    // if(r){
+                    //     r.dt_modified = msg.dt_modified || msg.dt_created;
+                    //     r.last_msg = AppUtils.stripTags(msg.content);
+
+                    //     state.rooms = sortRooms(rooms);
+                    // }
+                }
+            }else if(action.payload.message.event === 'upd_msg'){
+                const msg = action.payload.message.msg;
+
+                if(msg){
+                    if(msg.room_id === state.activeRoom?.id){
+                        const oldMsg = state.messages.find(item => item.id === msg.id);
+
+                        if(oldMsg){
+                            const index = state.messages.indexOf(oldMsg);
+
+                            state.messages.splice(index, 1, msg);
+                        }
+                    }
+                }
+            }else if(action.payload.message.event === 'new_room'){
+                const rooms = Array.from(state.rooms);
+                const room = action.payload.message.room;
+
+                if(room){
+                    const r = rooms.find(item => item.id === room.id);
                     if(r){
-                        r.dt_modified = msg.dt_modified || msg.dt_created;
-                        r.last_msg = AppUtils.stripTags(msg.content);
+                        const index = rooms.indexOf(r);
+                        rooms.splice(index, 1, room);
+
+                        state.rooms = sortRooms(rooms);
+                    }else{
+                        rooms.push(room);
+                        
+                        state.rooms = sortRooms(rooms);
+                    }
+                }
+            }
+            else if(action.payload.message.event === 'upd_room'){
+                const room = action.payload.message.room;
+
+                if(room){
+                    const rooms = Array.from(state.rooms);
+                    const r = rooms.find(item => item.id === room.id);
+                    if(r){
+                        // Update room
+                        const index = rooms.indexOf(r);
+                        rooms.splice(index, 1, room);
+
+                        state.rooms = sortRooms(rooms);
+
+                        // Check last room
+                        if(state.more){
+                            const newRoom = state.rooms.find(item => item.id === r.id)!;
+                            const newIndex = state.rooms.indexOf(newRoom);
+                            if(newIndex === ( state.rooms.length - 1 )){
+                                // Remove room
+                                state.rooms.splice(newIndex, 1);
+                            }
+                        }
+                    }else{
+                        // Append room
+                        rooms.push(room);
 
                         state.rooms = sortRooms(rooms);
                     }
                 }
-            }else if(action.payload.message.event === 'upd_msg'){
-                
             }else if(action.payload.message.event === 'rm_msg'){
-                
+                if(state.activeRoom?.id === action.payload.message.room_id){
+                    const msg = state.messages.find(item => item.id === action.payload.message.msg_id);
+                    if(msg){
+                        const index = state.messages.indexOf(msg);
+                        // Remove message
+                        state.messages.splice(index, 1);
+                    }
+                }
+            }else if(action.payload.message.event === 'rm_room'){
+                const r = state.rooms.find(item => item.id === action.payload.message.room_id);
+
+                if(r){
+                    const index = state.rooms.indexOf(r);
+                    // Remove room
+                    state.rooms.splice(index, 1);
+                }
             }
         },
         setMessages: (state, action: PayloadAction<TMessage[]>) => {
