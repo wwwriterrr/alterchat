@@ -10,6 +10,7 @@ export const ChatsHead = () => {
     const dispatch = useAppDispatch()
 
     const itemSelectHandler = (item: TUser | TRoom | TAcItem) => {
+        item as TUser;
         console.log('select', item);
         dispatch(closeModal())
             .then(() => {

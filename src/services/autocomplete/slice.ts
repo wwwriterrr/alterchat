@@ -1,6 +1,7 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import { type TRoom, type TUser } from '../../core/types'
 import { AutocompleteFetch } from './actions'
+import { closeModal } from '../modal/actions'
 
 export type TAcItem = {
     id: number,
@@ -54,6 +55,10 @@ export const autocompleteSlice = createSlice({
             })
             .addCase(AutocompleteFetch.rejected, (state) => {
                 state.loading = false;
+            })
+            // Close modal
+            .addCase(closeModal.fulfilled, (state) => {
+                state.items = [];
             })
     }
 })

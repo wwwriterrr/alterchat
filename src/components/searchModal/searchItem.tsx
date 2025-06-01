@@ -4,12 +4,12 @@ import { type TRoom, type TUser } from '../../core/types';
 import { type TAcItem } from '../../services/autocomplete/slice';
 import { HostUrl } from '../../core/constants';
 
-type TProps = {
-    item: TUser | TRoom | TAcItem,
-    onClick?: (item: TUser | TRoom | TAcItem) => void,
+type TProps<R> = {
+    item: R,
+    onClick?: (item: R) => void,
 }
 
-export const AutocompleteItem: FC<TProps> = ({item, onClick}) => {
+export const AutocompleteItem: FC<TProps<TUser | TRoom | TAcItem>> = ({item, onClick}) => {
     const clickHandler = () => {
         onClick?.(item);
     }
