@@ -1,13 +1,24 @@
-import { openModal } from '../../services/modal/actions'
+import { TRoom, TUser } from '../../core/types'
+import { setAutocompleteItems, TAcItem } from '../../services/autocomplete/slice'
+import { closeModal, openModal } from '../../services/modal/actions'
 import { useAppDispatch } from '../../services/store'
 import { AddChatIcon } from '../icons'
+import { AppSearchModal } from '../searchModal'
 import styles from './head.module.css'
 
 export const ChatsHead = () => {
     const dispatch = useAppDispatch()
 
+    const itemSelectHandler = (item: TUser | TRoom | TAcItem) => {
+        console.log('select', item);
+        dispatch(closeModal())
+            .then(() => {
+                dispatch(setAutocompleteItems([]));
+            })
+    }
+
     const addChatClickHandler = () => {
-        dispatch(openModal({content: 'test', title: 'Поиск', modalType: 'flex'}))
+        dispatch(openModal({content: <AppSearchModal autoFocus onItemSelect={itemSelectHandler} />, title: 'Поиск', modalType: 'flex'}))
     }
 
     return (

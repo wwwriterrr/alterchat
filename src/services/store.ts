@@ -9,13 +9,14 @@ import { editorSlice, TEditorInternalActions } from './editor/slice'
 import { socketMiddleware } from './middleware/socketMiddleware'
 import { messagesWsConnect, messagesWsDisconnect, TMessagesWsExternalActions } from './rooms/actions'
 import { modalSlice, TModalInternalActions } from './modal/slice'
-import { TModalExternalActions } from './modal/actions'
+import { autocompleteSlice, TAcInternalActions } from './autocomplete/slice'
 
 export const rootReducer = combineReducers({
     [authSlice.reducerPath]: authSlice.reducer,
     [roomsSlice.reducerPath]: roomsSlice.reducer,
     [editorSlice.reducerPath]: editorSlice.reducer,
     [modalSlice.reducerPath]: modalSlice.reducer,
+    [autocompleteSlice.reducerPath]: autocompleteSlice.reducer,
     // [MessagesSlice.reducerPath]: MessagesSlice.reducer,
 })
 
@@ -41,7 +42,8 @@ type TApplicationActions = TAuthInternalActions |
     TEditorInternalActions | 
     // TMessagesWsInternalActions | 
     TMessagesWsExternalActions | 
-    TModalInternalActions
+    TModalInternalActions |
+    TAcInternalActions
 
 export type AppStore = typeof store;
 export type RootState = ReturnType<typeof rootReducer>;

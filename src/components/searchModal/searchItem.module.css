@@ -1,0 +1,27 @@
+.item{
+
+}
+
+.userItem{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    & > *{
+        cursor: pointer;
+    }
+
+    & > .av{
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 34px;height: 34px;
+        border-radius: 50%;
+        background-color: #e3e3e3;
+    }
+
+    & > .name{
+
+    }
+}

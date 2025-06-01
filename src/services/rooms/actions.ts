@@ -21,7 +21,7 @@ export const MessagesFetch = createAsyncThunk(
     'messages/fetchMessages',
     async ({roomId}: {roomId: number}, {rejectWithValue, dispatch}) => {
         try{
-            const url = new URL(`${BackendUrl}/rooms/${roomId}/`);
+            const url = new URL(`${BackendUrl}/rooms/${roomId}/messages/`);
 
             const response = await AppFetch(url, {
                 method: 'get',
@@ -129,5 +129,24 @@ export const RoomFetch = createAsyncThunk(
     }
 )
 
+export const RoomCheck = createAsyncThunk(
+    'rooms/check',
+    async ({userId}: {userId: number}, {rejectWithValue}) => {
+        try{
+            const url = `${BackendUrl}/rooms/check/`;
+
+            const response = await AppFetch(url, {
+                method: 'post',
+            })
+
+            return;
+        } catch (err) {
+            return rejectWithValue(`Error with check room: ${(err as Error).message}`)
+        }
+    }
+)
+
 export type TRoomsExternalActions = ReturnType<typeof RoomsFetch> |
-    ReturnType<typeof RoomsSelect>
+    ReturnType<typeof RoomsSelect> |
+    ReturnType<typeof RoomFetch> |
+    ReturnType<typeof RoomCheck>
