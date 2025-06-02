@@ -1,3 +1,42 @@
+:root{
+    --av-width: 34px;
+}
+
 .wrap{
+    position: relative;
+    display: grid;
+    grid-template: 'av msg' auto 'av attach' auto / auto 1fr;
+    gap: 6px 10px;
+
+    &[data-self]{
+        grid-template: 'msg' auto 'attach' auto / 100%;
+
+        .message{
+            justify-self: end;
+        }
+    }
+
+    &[data-self] + &[data-self] .av{
+        display: none;
+    }
+}
+
+.message{
+    grid-area: msg;
+    max-width: 400px;
+    min-width: 80px;
+}
+
+.av{
+    grid-area: av;
+
+    & > img{
+        position: relative;
+        width: 34px;height: 34px;
+        border-radius: 50%;
+    }
+}
+
+.content{
 
 }

@@ -1,3 +1,6 @@
 export * from './loader'
 export * from './close'
 export * from './addChat'
+export * from './trash'
+export * from './pin'
+export * from './read'
