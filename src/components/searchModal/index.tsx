@@ -73,17 +73,17 @@ export const AppSearchModal: FC<TProps> = ({
                     onFocus={focusHandler}
                     placeholder={placeholder}
                 />
-            </div>
-            <div className={styles.items}>
                 {autocompleteLoading ? (
                     <div className={styles.loader}>
                         <LoaderIcon size={18} fill="#444" />
                     </div>
                 ) : null}
+            </div>
+            <div className={styles.items}>
                 {autocompleteItems.length ? (
                     <>
                         {autocompleteItems.map((item, i) => (
-                            <AutocompleteItem item={item} key={`ac_item-${i}`} onClick={onItemSelect} />
+                            <AutocompleteItem item={item} key={`ac_item-${i}`} onClick={onItemSelect} searchValue={value} />
                         ))}
                     </>
                 ) : (

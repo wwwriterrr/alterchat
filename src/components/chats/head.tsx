@@ -13,9 +13,6 @@ export const ChatsHead = () => {
         item as TUser;
         console.log('select', item);
         dispatch(closeModal())
-            .then(() => {
-                dispatch(setAutocompleteItems([]));
-            })
     }
 
     const addChatClickHandler = () => {
