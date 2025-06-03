@@ -6,7 +6,8 @@
     position: relative;
     display: grid;
     grid-template: 'av msg' auto 'av attach' auto / auto 1fr;
-    gap: 6px 10px;
+    gap: 0 10px;
+    margin-bottom: 4px;
 
     &[data-self]{
         grid-template: 'msg' auto 'attach' auto / 100%;
@@ -23,8 +24,21 @@
 
 .message{
     grid-area: msg;
+    justify-self: start;
     max-width: 400px;
     min-width: 80px;
+    padding: 8px;
+    border-radius: 6px;
+    background-color: #eee;
+}
+
+[data-self] .message{
+    background-color: #b5d9ff;
+}
+
+.wrap[data-self] + .wrap:not([data-self]),
+.wrap:not([data-self]) + .wrap[data-self]{
+    margin-top: 14px;
 }
 
 .av{
