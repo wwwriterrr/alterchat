@@ -4,6 +4,8 @@ import { type TRoom } from '../../core/types'
 import { CloseIcon, PinIcon, ReadIcon, TrashIcon } from '../icons'
 import { useAppDispatch } from '../../services/store'
 import { setContextRoom } from '../../services/rooms/slice'
+import { openModal } from '../../services/modal/actions'
+import { RoomRemoveModal } from '../modals/roomRemove'
 
 export const RoomContextMenu: FC<{room: TRoom}> = ({room}) => {
     const dispatch = useAppDispatch();
@@ -16,6 +18,8 @@ export const RoomContextMenu: FC<{room: TRoom}> = ({room}) => {
 
     const removeClickHandler: MouseEventHandler = (e) => {
         e.stopPropagation();
+
+        dispatch(openModal({title: 'Подтверждение', content: <RoomRemoveModal room={room} />, modalType: 'flex'}));
     }
 
     return (

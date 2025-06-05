@@ -11,6 +11,10 @@ import { HostUrl } from '../../core/constants'
 import './editor.css'
 import { LoaderIcon, SendIcon } from '../icons'
 import { AppUtils } from '../../core/utils'
+import { MessagesSend } from '../../services/rooms/actions'
+import { getActiveRoom } from '../../services/rooms/slice'
+import { getUser } from '../../services/auth/slice'
+import { useNavigate } from 'react-router-dom'
 
 type TEventHandler<K extends keyof Events.EditorEventMap> = EventHandler<Events.EditorEventMap[K]>;
 
@@ -19,11 +23,15 @@ export const AppEditor = () => {
     const [load, setLoad] = useState<boolean>(false);
     const [focus, setFocus] = useState<boolean>(false);
 
+    const navigate = useNavigate();
+
     const dispatch = useAppDispatch();
 
     const editorRef = useRef<TinyMCEEditor>();
 
+    const user = useAppSelector(getUser)!;
     const editorContent = useAppSelector(getEditorContent);
+    const activeRoom = useAppSelector(getActiveRoom);
 
     const initHandler: TEventHandler<'init'> = (_, editor) => {
         setIsInit(true);
@@ -37,12 +45,30 @@ export const AppEditor = () => {
 
     const submitHandler = () => {
         if(load) return;
-        if(!AppUtils.stripTags(editorContent)) return;
+        if(!AppUtils.stripTags(editorContent).trim()) return;
+        if(!activeRoom) return;
+
+        const content = editorContent.replace(/\<p\>\<\/p\>/g, '').trim();
+
+        const data: {content: string, roomId: number, userId?: number} = {content, roomId: activeRoom.id};
+        if(activeRoom.id === 0){
+            const friend = activeRoom.members.find(item => item.id !== user.id);
+            if(!friend) return;
+            data.userId = friend.id;
+        }
 
         setLoad(true);
-        setTimeout(() => {
-            setLoad(false);
-        }, 2000)
+        dispatch(MessagesSend(data))
+            .then(action => {
+                if(action.type === MessagesSend.fulfilled.type){
+                    dispatch(setEditorContent(''));
+
+                    if(activeRoom.id === 0){
+                        navigate(`/messenger/${action.payload}/`);
+                    }
+                }
+            })
+            .finally(() => setLoad(false))
     }
 
     const options: InitOptions = {
@@ -67,7 +93,7 @@ export const AppEditor = () => {
 
     return (
         <div className={styles.wrap}>
-            <div className={styles.editorWrap}>
+            <div className={`${styles.editorWrap} ${focus ? styles.editorWrapFocus : ''}`}>
                 {!isInit ? (
                     <div className={styles.skeleton}></div>
                 ) : null}

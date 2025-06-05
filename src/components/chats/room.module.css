@@ -59,7 +59,7 @@
 
     & > .roomRemove{
         flex: 1 1 0px;
-        background-color: #ff3f3f;
+        background-color: var(--remove-color);
     }
 
     & > .roomPin{

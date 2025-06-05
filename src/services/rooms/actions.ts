@@ -47,16 +47,43 @@ export const MessagesFetch = createAsyncThunk(
     }
 )
 
-// export const sendMessage = createAsyncThunk(
-//     'messages/sendMessage',
-//     async ({taskId, content, attach}: {taskId: number, content: string, attach?: number[]}, {rejectWithValue}) => {
-//         try{
-            
-//         }catch (err) {
-//             return rejectWithValue(err);
-//         }
-//     }
-// )
+export const MessagesSend = createAsyncThunk(
+    'messages/send',
+    async ({roomId, content, userId}: {roomId: number, content: string, userId?: number}, {rejectWithValue}) => {
+        try{
+            const url = new URL(`${BackendUrl}/rooms/${roomId}/messages/`);
+
+            if(!content){
+                return rejectWithValue('Content is required');
+            }
+
+            if(roomId === 0 && !userId){
+                return rejectWithValue('User ID is required');
+            }
+
+            const requestBody: {content: string, user_id?: number} = {content};
+
+            if(roomId === 0){
+                requestBody.user_id = userId;
+            }
+
+            const response = await AppFetch(url, {
+                method: 'post',
+                body: JSON.stringify(requestBody),
+            })
+
+            if(!response.ok){
+                return rejectWithValue('Error with send messages');
+            }
+
+            const data: {room_id: number} = await response.json();
+
+            return data.room_id;
+        } catch (err) {
+            return rejectWithValue(err);
+        }
+    }
+)
 
 // export const editMessage = createAsyncThunk(
 //     'messages/editMessage',
@@ -174,7 +201,32 @@ export const RoomCheck = createAsyncThunk(
     }
 )
 
+export const RoomRemove = createAsyncThunk(
+    'rooms/remove',
+    async ({roomId}: {roomId: number}, {rejectWithValue}) => {
+        try{
+            const url = `${BackendUrl}/rooms/${roomId}/`;
+
+            const response = await AppFetch(url, {
+                method: 'delete',
+            })
+
+            if(!response.ok){
+                return rejectWithValue('Error with remove room');
+            }
+
+            return;
+        } catch (err) {
+            return rejectWithValue(err);
+        }
+    }
+)
+
 export type TRoomsExternalActions = ReturnType<typeof RoomsFetch> |
     ReturnType<typeof RoomsSelect> |
     ReturnType<typeof RoomFetch> |
-    ReturnType<typeof RoomCheck>
+    ReturnType<typeof RoomCheck> | 
+    ReturnType<typeof RoomRemove> | 
+
+    ReturnType<typeof MessagesFetch> | 
+    ReturnType<typeof MessagesSend>

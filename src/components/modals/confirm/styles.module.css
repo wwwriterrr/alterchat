@@ -1,0 +1,44 @@
+.wrap{
+    position: relative;
+    display: grid;
+    grid-template: 'txt txt' auto 'accept cancel' 40px / 1fr 1fr;
+    gap: 20px 6px;
+
+    & > button{
+        border-radius: 6px;
+    }
+}
+
+.text{
+    grid-area: txt;
+}
+
+.acceptBtn{
+    grid-area: accept;
+}
+
+.accept{
+    background-color: var(--active-color);
+    color: #fff;
+}
+
+.remove{
+    background-color: var(--remove-color);
+    color: #fff;
+}
+
+.cancel{
+    grid-area: cancel;
+    border: 1px solid #e3e3e3;
+    color: #444;
+}
+
+.loader{
+    position: absolute;
+    left: 0;top: 0;
+    width: 100%;height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+}

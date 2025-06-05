@@ -11,16 +11,16 @@ export const App = () => {
     return (
         <Provider store={store}>
             <AuthHOC>
-                <ModalHOC>
-                    <BrowserRouter>
+                <BrowserRouter>
+                    <ModalHOC>
                         <Routes>
                             <Route path="messenger" element={<Page />} >
                                 <Route path=':roomId' element={<AppRoomContent />} />
                             </Route>
                             <Route path="*" element={<div>404</div>} />
                         </Routes>
-                    </BrowserRouter>
-                </ModalHOC>
+                    </ModalHOC>
+                </BrowserRouter>
             </AuthHOC>
         </Provider>
     )

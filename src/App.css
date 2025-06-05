@@ -1,6 +1,7 @@
 :root{
     --main-font: 'PT Serif', sans-serif;
     --active-color: #346dc6;
+    --remove-color: #d54545;
 }
 
 body{
