@@ -8,6 +8,7 @@ import { MessagesFetch } from '../../services/rooms/actions';
 import { WebsocketStatus } from '../../core/types';
 
 export const AppMessages = () => {
+    const containerRef = useRef<HTMLDivElement>(null);
     const listRef = useRef<HTMLDivElement>(null);
 
     const dispatch = useAppDispatch();
@@ -21,8 +22,8 @@ export const AppMessages = () => {
     useEffect(() => {
         dispatch(MessagesFetch({roomId: room.id}))
             .then(() => {
-                if(listRef.current){
-                    listRef.current.scrollTo({top: listRef.current.scrollHeight})
+                if(listRef.current && containerRef.current){
+                    containerRef.current.scrollTo({top: listRef.current.clientHeight});
                 }
             })
 
@@ -32,7 +33,7 @@ export const AppMessages = () => {
     }, [room])
 
     return (
-        <div className={styles.wrap}>
+        <div id="messages-container" className={styles.wrap} ref={containerRef}>
             {load ? (
                 <div className={styles.loader}>
                     <LoaderIcon size={24} fill='#444' />
@@ -40,7 +41,7 @@ export const AppMessages = () => {
             ) : (
                 <>
                     {messages.length ? (
-                        <div className={styles.list} ref={listRef}>
+                        <div id="messages-list" className={styles.list} ref={listRef}>
                             {messages.map(msg => (
                                 <Message message={msg} key={`message-${msg.id}`} />
                             ))}

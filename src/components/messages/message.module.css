@@ -52,7 +52,12 @@
 }
 
 .content{
+    position: relative;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+
     & p{
+        display: inline-block;
         margin: 0 0 10px 0;
 
         &:last-child{
