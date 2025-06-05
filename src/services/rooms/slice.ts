@@ -9,6 +9,7 @@ type TRoomsInitialState = {
     rooms: (TRoom & {draft?: string})[],
     more: boolean,
     activeRoom: TRoom | null,
+    contextRoom: number | null,
 
     status: WebsocketStatus,
     messages: TMessage[],
@@ -40,6 +41,7 @@ const initialState: TRoomsInitialState = {
     rooms: [],
     more: false,
     activeRoom: null,
+    contextRoom: null,
 
     status: WebsocketStatus.OFFLINE,
     messages: [],
@@ -121,6 +123,9 @@ export const roomsSlice = createSlice({
             if(!room) return;
 
             state.activeRoom = room;
+        },
+        setContextRoom: (state, action: PayloadAction<number | null>) => {
+            state.contextRoom = action.payload;
         },
 
         // Messages
@@ -280,6 +285,7 @@ export const roomsSlice = createSlice({
         getRoomsLoading: state => state.loading,
         getRoomsMore: state => state.more,
         getActiveRoom: state => state.activeRoom,
+        getContextRoom: state => state.contextRoom,
 
         // Messages
         getMessages: state => state.messages,
@@ -324,6 +330,7 @@ export const {
     getRoomsLoading,
     getRoomsMore,
     getActiveRoom,
+    getContextRoom,
     // Messages
     getMessages,
     getMessagesError,
@@ -343,6 +350,7 @@ export const {
     setRoomDraft,
     setActiveRoom,
     selectRoom,
+    setContextRoom,
     // Messages
     wsConnecting, 
     wsOpen, 

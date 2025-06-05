@@ -1,3 +1,56 @@
+:root{
+    --av-width: 34px;
+}
+
 .wrap{
+    position: relative;
+    display: grid;
+    grid-template: 'av msg' auto 'av attach' auto / auto 1fr;
+    gap: 0 10px;
+    margin-bottom: 4px;
+
+    &[data-self]{
+        grid-template: 'msg' auto 'attach' auto / 100%;
+
+        .message{
+            justify-self: end;
+        }
+    }
+
+    &[data-self] + &[data-self] .av{
+        display: none;
+    }
+}
+
+.message{
+    grid-area: msg;
+    justify-self: start;
+    max-width: 400px;
+    min-width: 80px;
+    padding: 8px;
+    border-radius: 6px;
+    background-color: #eee;
+}
+
+[data-self] .message{
+    background-color: #b5d9ff;
+}
+
+.wrap[data-self] + .wrap:not([data-self]),
+.wrap:not([data-self]) + .wrap[data-self]{
+    margin-top: 14px;
+}
+
+.av{
+    grid-area: av;
+
+    & > img{
+        position: relative;
+        width: 34px;height: 34px;
+        border-radius: 50%;
+    }
+}
+
+.content{
 
 }
