@@ -1,7 +1,7 @@
 import { createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import { BackendUrl } from "../../core/constants";
 import { AppFetch } from "../api";
-import { TRoom } from "../../core/types";
+import { TRoom, TUser } from "../../core/types";
 import { setActiveRoom, setRooms, setRoomsMore } from "./slice";
 import { RootState } from "../store";
 import { TMessage } from '../../core/types';
@@ -21,6 +21,10 @@ export const MessagesFetch = createAsyncThunk(
     'messages/fetchMessages',
     async ({roomId}: {roomId: number}, {rejectWithValue, dispatch}) => {
         try{
+            if(roomId === 0){
+                return rejectWithValue('Error with fetch empty room');
+            }
+
             const url = new URL(`${BackendUrl}/rooms/${roomId}/messages/`);
 
             const response = await AppFetch(url, {
@@ -137,9 +141,33 @@ export const RoomCheck = createAsyncThunk(
 
             const response = await AppFetch(url, {
                 method: 'post',
+                body: JSON.stringify({
+                    user_id: userId,
+                })
             })
 
-            return;
+            if(!response.ok){
+                if(response.status === 404){
+                    const data: {detail: string, members: TUser[]} = await response.json();
+                    const fakeRoom: TRoom = {
+                        id: 0,
+                        dt_created: Math.floor(Date.now() / 1000),
+                        title: null,
+                        description: null,
+                        avatar: null,
+                        last_msg: null,
+                        dt_modified: null,
+                        members: data.members,
+                    }
+                    return {status: response.status, room: fakeRoom};
+                }else{
+                    return rejectWithValue(`Error with check room`);
+                }
+            }
+
+            const data: {room: TRoom} = await response.json();
+
+            return {status: response.status, room: data.room};
         } catch (err) {
             return rejectWithValue(`Error with check room: ${(err as Error).message}`)
         }

@@ -10,3 +10,7 @@
 .tox .tox-edit-area::before {
     display: none;
 }
+
+.tox .tox-edit-area__iframe{
+    background-color: transparent !important;
+}
