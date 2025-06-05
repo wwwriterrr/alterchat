@@ -17,20 +17,6 @@ export const messagesWsDisconnect = createAction('MESSAGES_DISCONNECT');
 
 export type TMessagesWsExternalActions = ReturnType<typeof messagesWsConnect> | ReturnType<typeof messagesWsDisconnect>;
 
-export const MessagesScroll = createAsyncThunk(
-    'messages/scroll',
-    async (_, {rejectWithValue}) => {
-        const container = document.getElementById('messages-container');
-        const list = document.getElementById('messages-list');
-
-        if(!container || !list){
-            return rejectWithValue('Error');
-        }
-
-        console.log('scroll action', container.scrollTop, list.clientHeight);
-    }
-)
-
 export const MessagesFetch = createAsyncThunk(
     'messages/fetchMessages',
     async ({roomId}: {roomId: number}, {rejectWithValue, dispatch}) => {

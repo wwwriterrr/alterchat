@@ -319,6 +319,22 @@ export const roomsSlice = createSlice({
             .addCase(MessagesFetch.rejected, (state) => {
                 state.messagesLoad = false;
             })
+
+            .addCase(wsMessage, (state, action) => {
+                console.log('ws message');
+                if(action.payload.message.event === 'new_msg'){
+                    if(state.activeRoom?.id === action.payload.message.msg?.room_id){
+                        const container = document.getElementById('messages-container');
+                        const list = document.getElementById('messages-list');
+
+                        if(!container || !list){
+                            return;
+                        }
+
+                        console.log('scroll action', container.scrollTop, list.clientHeight);
+                    }
+                }
+            })
     }
 })
 
