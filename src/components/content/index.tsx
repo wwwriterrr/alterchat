@@ -12,7 +12,7 @@ export const ChatContent = () => {
     const {roomId} = useParams();
     
     useEffect(() => {
-        if(roomId){
+        if(roomId && roomId !== 'new'){
             dispatch(selectRoom(parseInt(roomId)));
         }
     }, [location])

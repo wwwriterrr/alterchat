@@ -9,6 +9,8 @@ import { type Editor as TinyMCEEditor } from 'tinymce'
 import { useRef, useState } from 'react'
 import { HostUrl } from '../../core/constants'
 import './editor.css'
+import { LoaderIcon, SendIcon } from '../icons'
+import { AppUtils } from '../../core/utils'
 
 type TEventHandler<K extends keyof Events.EditorEventMap> = EventHandler<Events.EditorEventMap[K]>;
 
@@ -33,6 +35,16 @@ export const AppEditor = () => {
         dispatch(setEditorContent(newContent));
     }
 
+    const submitHandler = () => {
+        if(load) return;
+        if(!AppUtils.stripTags(editorContent)) return;
+
+        setLoad(true);
+        setTimeout(() => {
+            setLoad(false);
+        }, 2000)
+    }
+
     const options: InitOptions = {
         menubar: false,
         toolbar: false,
@@ -45,11 +57,11 @@ export const AppEditor = () => {
         valid_styles: {
             '*': 'font-size,font-family,font-style,font-weight,color,text-decoration,text-align,margin,padding',
         },
-        height: 60,
         max_height: 220,
-        min_height: 60,
-        // content_css: '/src/assets/editor.css',
-        content_style: 'body {margin: 10px; font-family: "PT Serif", sans-serif;font-size: 14px;} p{margin: 0 0 14px 0;}',
+        min_height: 40,
+        autoresize_bottom_margin: 0,
+        autoresize_overflow_padding: 0,
+        content_style: 'body {margin: 10px; font-family: "PT Serif", sans-serif;font-size: 14px;} p{margin: 0 0 14px 0;} p:last-child{margin-bottom: 0;}',
         placeholder: 'Текст сообщения',
     }
 
@@ -71,6 +83,9 @@ export const AppEditor = () => {
                     onFocusOut={() => setFocus(false)}
                 />
             </div>
+            <button className={styles.submit} disabled={load || !isInit} onClick={submitHandler}>
+                {load ? <LoaderIcon size={20} fill="#fff" /> : <SendIcon size={20} fill="#fff" />}
+            </button>
         </div>
     )
 }
