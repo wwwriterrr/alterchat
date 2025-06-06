@@ -2,7 +2,7 @@ import { createAsyncThunk, createAction } from "@reduxjs/toolkit";
 import { BackendUrl } from "../../core/constants";
 import { AppFetch } from "../api";
 import { TRoom, TUser } from "../../core/types";
-import { setActiveRoom, setRooms, setRoomsMore } from "./slice";
+import { addMessages, setActiveRoom, setRooms, setRoomsMore } from "./slice";
 import { RootState } from "../store";
 import { TMessage } from '../../core/types';
 import { setMessages, setMessagesMore } from './slice';
@@ -19,13 +19,16 @@ export type TMessagesWsExternalActions = ReturnType<typeof messagesWsConnect> | 
 
 export const MessagesFetch = createAsyncThunk(
     'messages/fetchMessages',
-    async ({roomId}: {roomId: number}, {rejectWithValue, dispatch}) => {
+    async ({roomId, lastId}: {roomId: number, lastId?: number}, {rejectWithValue, dispatch}) => {
         try{
             if(roomId === 0){
                 return rejectWithValue('Error with fetch empty room');
             }
 
             const url = new URL(`${BackendUrl}/rooms/${roomId}/messages/`);
+            if(lastId){
+                url.searchParams.set('last_id', `${lastId}`);
+            }
 
             const response = await AppFetch(url, {
                 method: 'get',
@@ -37,7 +40,11 @@ export const MessagesFetch = createAsyncThunk(
 
             const data: {messages: TMessage[], more: boolean} = await response.json();
 
-            dispatch(setMessages(data.messages));
+            if(lastId){
+                dispatch(addMessages(data.messages));
+            }else{
+                dispatch(setMessages(data.messages));
+            }
             dispatch(setMessagesMore(data.more));
 
             return;

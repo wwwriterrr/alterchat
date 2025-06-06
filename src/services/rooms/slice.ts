@@ -239,7 +239,7 @@ export const roomsSlice = createSlice({
             state.messages = action.payload.reverse();
         },
         addMessages: (state, action: PayloadAction<TMessage[]>) => {
-            state.messages = [...state.messages, ...action.payload.reverse()]
+            state.messages = [...action.payload.reverse(), ...state.messages]
         },
         setMessagesMore: (state, action: PayloadAction<boolean>) => {
             state.msgMore = action.payload;

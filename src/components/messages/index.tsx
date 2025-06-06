@@ -6,6 +6,7 @@ import { Message } from './message';
 import styles from './styles.module.css'
 import { MessagesFetch } from '../../services/rooms/actions';
 import { WebsocketStatus } from '../../core/types';
+import { MessagesLoader } from './loader';
 
 export const AppMessages = () => {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -44,7 +45,7 @@ export const AppMessages = () => {
 
     return (
         <div id="messages-container" className={styles.wrap} ref={containerRef}>
-            {load ? (
+            {load && !messages.length ? (
                 <div className={styles.loader}>
                     <LoaderIcon size={24} fill='#444' />
                 </div>
@@ -52,6 +53,16 @@ export const AppMessages = () => {
                 <>
                     {messages.length ? (
                         <div id="messages-list" className={styles.list} ref={listRef}>
+                            {more ? (
+                                <>
+                                    {load ? (
+                                        <div className={styles.loader}>
+                                            <LoaderIcon size={24} fill='#444' />
+                                        </div>) : (
+                                            <MessagesLoader containerRef={containerRef} />
+                                        )}
+                                </>
+                            ) : null}
                             {messages.map(msg => (
                                 <Message message={msg} key={`message-${msg.id}`} />
                             ))}
