@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { getActiveRoom, getMessages, getMessagesLoad, getMessagesMore, getMessagesWsStatus, setMessages } from '../../services/rooms/slice';
 import { useAppDispatch, useAppSelector } from '../../services/store'
 import { LoaderIcon } from '../icons';
@@ -31,6 +31,16 @@ export const AppMessages = () => {
             dispatch(setMessages([]));
         }
     }, [room])
+
+    useMemo(() => {
+        if(!containerRef.current || !listRef.current) return;
+
+        const scrollTop = containerRef.current.scrollTop+containerRef.current.clientHeight-20;
+        const listHeight = listRef.current.clientHeight;
+        if(scrollTop === listHeight){
+            setTimeout(() => containerRef.current?.scrollTo({top: listRef.current?.clientHeight}), 100);
+        }
+    }, [messages])
 
     return (
         <div id="messages-container" className={styles.wrap} ref={containerRef}>

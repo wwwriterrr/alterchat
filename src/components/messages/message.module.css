@@ -64,4 +64,12 @@
             margin-bottom: 0;
         }
     }
+
+    & blockquote{
+        display: inline-flex;
+        flex-direction: column;
+        margin: 8px 0 8px 0;
+        padding: 6px 0 6px 14px;
+        border-left: 4px solid var(--active-color);
+    }
 }

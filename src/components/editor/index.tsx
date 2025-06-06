@@ -77,13 +77,13 @@ export const AppEditor = () => {
         inline: true,
         // fixed_toolbar_container: '#toolbar',
         plugins: [
-            'quickbars', 'emoticons', 'autolink', 'autoresize',
+            'quickbars', 'emoticons', 'autolink',
         ],
         quickbars_insert_toolbar: false,
         quickbars_selection_toolbar: 'bold italic underline | forecolor backcolor | blockquote quicklink | alignleft aligncenter alignright alignfull',
-        valid_elements: 'p[style],strong/b,em,span[style],a[href|target=_blank]',
+        valid_elements: 'p[style],strong/b,em,span[style],a[href|target=_blank],blockquote',
         valid_styles: {
-            '*': 'font-size,font-family,font-style,font-weight,color,text-decoration,text-align,margin,padding',
+            '*': 'font-size,font-family,font-style,font-weight,color,background-color,text-decoration,text-align,margin,padding',
         },
         // max_height: 220,
         // min_height: 40,
@@ -91,6 +91,8 @@ export const AppEditor = () => {
         // autoresize_overflow_padding: 0,
         // content_style: 'body {margin: 10px; font-family: "PT Serif", sans-serif;font-size: 14px;} p{margin: 0 0 14px 0;} p:last-child{margin-bottom: 0;}',
         placeholder: 'Текст сообщения',
+        paste_block_drop: true,
+        paste_data_images: false,
     }
 
     return (

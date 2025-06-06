@@ -150,19 +150,10 @@ export const roomsSlice = createSlice({
                 if(msg){
                     if(state.activeRoom?.id === msg.room_id){
                         if(!state.messages.find(item => item.id === msg.id)){
+                            // Set new messages
                             state.messages = [...state.messages, msg];
                         }
                     }
-
-                    // Update room
-                    // const rooms = Array.from(state.rooms);
-                    // const r = rooms.find(item => item.id === action.payload.message.msg?.room_id);
-                    // if(r){
-                    //     r.dt_modified = msg.dt_modified || msg.dt_created;
-                    //     r.last_msg = AppUtils.stripTags(msg.content);
-
-                    //     state.rooms = sortRooms(rooms);
-                    // }
                 }
             }else if(action.payload.message.event === 'upd_msg'){
                 const msg = action.payload.message.msg;
@@ -318,22 +309,6 @@ export const roomsSlice = createSlice({
             })
             .addCase(MessagesFetch.rejected, (state) => {
                 state.messagesLoad = false;
-            })
-
-            .addCase(wsMessage, (state, action) => {
-                console.log('ws message');
-                if(action.payload.message.event === 'new_msg'){
-                    if(state.activeRoom?.id === action.payload.message.msg?.room_id){
-                        const container = document.getElementById('messages-container');
-                        const list = document.getElementById('messages-list');
-
-                        if(!container || !list){
-                            return;
-                        }
-
-                        console.log('scroll action', container.scrollTop, list.clientHeight);
-                    }
-                }
             })
     }
 })
