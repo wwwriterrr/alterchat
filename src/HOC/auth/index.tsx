@@ -34,16 +34,22 @@ export const AuthHOC: FC<{children: JSX.Element}> = ({children}) => {
     }, [])
 
     return (
-        <>{authChecked ? (
-            <>
-                {user ? (<>{children}</>) : (
-                    <AuthForm />
-                )}
-            </>
-        ) : (
-            <div className={styles.loader}>
-                <LoaderIcon size={30} fill='#444' />
-            </div>
-        )}</>
+        <>
+            {authChecked ? (
+                <>
+                    {user ? (
+                        <>
+                            {children}
+                        </>
+                    ) : (
+                        <AuthForm />
+                    )}
+                </>
+            ) : (
+                <div className={styles.loader}>
+                    <LoaderIcon size={30} fill='#444' />
+                </div>
+            )}
+        </>
     )
 }

@@ -27,8 +27,23 @@
     grid-area: editor;
     position: relative;
     min-height: 40px;
+    max-height: 220px;
     border-radius: 6px;
     border: 1px solid #e3e3e3;
+    padding: 10px;
+    overflow: auto;
+
+    & > div{
+        position: relative;
+
+        & p{
+            margin: 0 0 10px 0;
+
+            &:last-child{
+                margin-bottom: 0;
+            }
+        }
+    }
 }
 
 .editorWrapFocus{

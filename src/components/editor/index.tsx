@@ -74,6 +74,8 @@ export const AppEditor = () => {
     const options: InitOptions = {
         menubar: false,
         toolbar: false,
+        inline: true,
+        // fixed_toolbar_container: '#toolbar',
         plugins: [
             'quickbars', 'emoticons', 'autolink', 'autoresize',
         ],
@@ -83,16 +85,17 @@ export const AppEditor = () => {
         valid_styles: {
             '*': 'font-size,font-family,font-style,font-weight,color,text-decoration,text-align,margin,padding',
         },
-        max_height: 220,
-        min_height: 40,
-        autoresize_bottom_margin: 0,
-        autoresize_overflow_padding: 0,
-        content_style: 'body {margin: 10px; font-family: "PT Serif", sans-serif;font-size: 14px;} p{margin: 0 0 14px 0;} p:last-child{margin-bottom: 0;}',
+        // max_height: 220,
+        // min_height: 40,
+        // autoresize_bottom_margin: 0,
+        // autoresize_overflow_padding: 0,
+        // content_style: 'body {margin: 10px; font-family: "PT Serif", sans-serif;font-size: 14px;} p{margin: 0 0 14px 0;} p:last-child{margin-bottom: 0;}',
         placeholder: 'Текст сообщения',
     }
 
     return (
         <div className={styles.wrap}>
+            {/* <div id="toolbar" className={styles.toolbar}></div> */}
             <div className={`${styles.editorWrap} ${focus ? styles.editorWrapFocus : ''}`}>
                 {!isInit ? (
                     <div className={styles.skeleton}></div>
