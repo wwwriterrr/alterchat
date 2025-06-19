@@ -98,10 +98,7 @@ export const AppEditor = () => {
     return (
         <div className={styles.wrap}>
             {/* <div id="toolbar" className={styles.toolbar}></div> */}
-            <div className={`${styles.editorWrap} ${focus ? styles.editorWrapFocus : ''}`}>
-                {!isInit ? (
-                    <div className={styles.skeleton}></div>
-                ) : null}
+            <div className={`${styles.editorWrap} ${focus ? styles.editorWrapFocus : ''} ${!isInit ? styles.editorLoad : ''}`}>
                 <Editor 
                     licenseKey={'gpl'}
                     tinymceScriptSrc={`${HostUrl}/assets/tinymce/tinymce.min.js`}

@@ -309,6 +309,7 @@ export const roomsSlice = createSlice({
             })
             .addCase(MessagesFetch.rejected, (state) => {
                 state.messagesLoad = false;
+                state.msgMore = false;
             })
     }
 })
