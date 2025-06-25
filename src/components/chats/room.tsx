@@ -80,33 +80,35 @@ export const Room: FC<{room: TRoom & {draft?: string}}> = ({room}) => {
     return (
         <div className={`${styles.room} ${activeRoom?.id === id ? styles.activeRoom : ''} ${contextRoom === id ? styles.contextRoom : ''}`} id={`room-${id}`} onClick={clickHandler} onContextMenu={contextMenuHandler}>
             <RoomContextMenu room={room} />
-            <div className={styles.avatarWrap}>
-                {av ? (
-                    <img className={styles.avatar} src={`${HostUrl}${av}`} alt={avLetter} />
-                ) : (
-                    <span className={styles.letter}>{avLetter}</span>
-                )}
+            <div className={styles.roomWrap}>
+                <div className={styles.avatarWrap}>
+                    {av ? (
+                        <img className={styles.avatar} src={`${HostUrl}${av}`} alt={avLetter} />
+                    ) : (
+                        <span className={styles.letter}>{avLetter}</span>
+                    )}
+                </div>
+                <div className={styles.roomName}>
+                    <span>{name}</span>
+                </div>
+                <div className={styles.msg}>
+                    {draft ? (
+                        <span className={styles.draft}><i>Черновик:</i> {draftStr}</span>
+                    ) : (
+                        <>
+                            {last_msg ? (
+                                <>{msgStr}</>
+                            ) : (
+                                <span style={{fontSize: 12}}>Сообщений нет</span>
+                            )}
+                        </>
+                    )}
+                </div>
+                <div className={styles.dt}>
+                    {dtStr}
+                </div>
+                {/* <div className={styles.ntf}>99+</div> */}
             </div>
-            <div className={styles.roomName}>
-                <span>{name}</span>
-            </div>
-            <div className={styles.msg}>
-                {draft ? (
-                    <span className={styles.draft}><i>Черновик:</i> {draftStr}</span>
-                ) : (
-                    <>
-                        {last_msg ? (
-                            <>{msgStr}</>
-                        ) : (
-                            <span style={{fontSize: 12}}>Сообщений нет</span>
-                        )}
-                    </>
-                )}
-            </div>
-            <div className={styles.dt}>
-                {dtStr}
-            </div>
-            {/* <div className={styles.ntf}>99+</div> */}
         </div>
     )
 }

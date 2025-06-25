@@ -1,10 +1,7 @@
 .room{
     position: relative;
-    padding: 10px;
     border-bottom: 1px solid #e3e3e3;
     display: grid;
-    grid-template: 'av name dt dt' auto 'av msg msg ntf' auto / auto 1fr auto auto;
-    gap: 4px 10px;
     cursor: pointer;
     transition: background-color .1s ease-out;
     overflow: hidden;
@@ -22,6 +19,15 @@
         user-select: none; /* Non-prefixed version, currently
                                       supported by Chrome, Edge, Opera and Firefox */
     }
+
+    & > .roomWrap{
+        position: relative;
+        padding: 10px;
+        display: grid;
+        grid-template: 'av name dt dt' auto 'av msg msg ntf' auto / auto 1fr auto auto;
+        gap: 4px 10px;
+        transition: transform .2s ease-out;
+    }
 }
 
 .activeRoom{
@@ -29,6 +35,10 @@
 }
 
 .contextRoom{
+    & > .roomWrap{
+        transform: translate(-100%, 0);
+    }
+
     & > .contextMenu{
         transform: translate(0, 0);
     }

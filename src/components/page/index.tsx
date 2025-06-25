@@ -1,4 +1,3 @@
-import React from 'react'
 import styles from './styles.module.css'
 import { Side } from '../side'
 import { Chats } from '../chats'
@@ -6,6 +5,7 @@ import { ChatContent } from '../content'
 import { useAppSelector } from '../../services/store'
 import { getRooms } from '../../services/rooms/slice'
 import { EventsHOC } from '../../HOC/events'
+import { EmptyContent } from '../content/empty'
 
 export const Page = () => {
     const rooms = useAppSelector(getRooms);
@@ -16,8 +16,10 @@ export const Page = () => {
             <EventsHOC>
                 <Chats />
             </EventsHOC>
-            {rooms.length ? (<ChatContent />) : (
-                <div>empty</div>
+            {rooms.length ? (
+                <ChatContent />
+            ) : (
+                <EmptyContent />
             )}
         </div>
     )
