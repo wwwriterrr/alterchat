@@ -107,6 +107,9 @@ export const roomsSlice = createSlice({
         setRoomsMore: (state, action: PayloadAction<boolean>) => {
             state.more = action.payload;
         },
+        setRoomsLoad: (state, action: PayloadAction<boolean>) => {
+            state.loading = action.payload;
+        },
         setActiveRoom: (state, action: PayloadAction<TRoom | null>) => {
             state.activeRoom = action.payload;
         },
@@ -343,6 +346,7 @@ export const {
     setActiveRoom,
     selectRoom,
     setContextRoom,
+    setRoomsLoad,
     // Messages
     wsConnecting, 
     wsOpen, 

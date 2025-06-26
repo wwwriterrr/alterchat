@@ -3,6 +3,7 @@ import { useAppSelector } from '../../services/store'
 import { LoaderIcon } from '../icons';
 import styles from './list.module.css'
 import { Room } from './room';
+import { RoomsLoader } from './room.loader';
 
 export const Rooms = () => {
     const roomsLoading = useAppSelector(getRoomsLoading);
@@ -11,9 +12,9 @@ export const Rooms = () => {
 
     return (
         <div className={styles.wrap}>
-            {roomsLoading ? (
+            {roomsLoading && !rooms.length ? (
                 <div className={styles.loader}>
-                    <LoaderIcon size={30} fill='#444' />
+                    <LoaderIcon size={30} fill="#444" />
                 </div>
             ) : (
                 <>
@@ -23,7 +24,13 @@ export const Rooms = () => {
                                 <Room room={room} key={`room-${room.id}`} />
                             ))}
                             {roomsMore ? (
-                                <div>more</div>
+                                <>
+                                    {roomsLoading ? (
+                                        <LoaderIcon size={30} fill="#444" />
+                                    ) : (
+                                        <RoomsLoader />
+                                    )}
+                                </>
                             ) : null}
                         </>
                     ) : (
